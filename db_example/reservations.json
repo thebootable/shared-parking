@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "6228f04a1aa90de5994fa975"
+  },
+  "parkingspot": 196,
+  "client": "Tobi",
+  "creation": "2022-03-09T17:30:05.969Z"
+},{
+  "_id": {
+    "$oid": "6228f8101aa90de5994fa983"
+  },
+  "parkingspot": 197,
+  "client": "Tobi",
+  "creation": "2022-03-09T17:32:05.969Z"
+}]
