@@ -72,6 +72,31 @@ Any advise for common problems or issues.
 command to run if program contains helper info
 ```
 
+## Roadmap
+
+- [x] Implement basic idea
+- [x] Add Layout
+- [x] Add Darkmode
+- [ ] Add backend API
+    - [ ] get-methods
+    - [ ] post-methods
+- [ ] Add Frontend functionality
+    - [ ] get parking spots
+    - [ ] register my parking spot
+    - [ ] add new reservation
+    - [ ] view my reservations
+    - [ ] provide my parking spot
+    - [ ] answer an open parking spot request
+- [ ] Add User management
+    - [ ] Registration
+    - [ ] Login
+- [ ] Finalise browser notifications
+    - [ ] Prevent multiple registrations
+    - [ ] Add function: unsubscribe from notifications
+    - [ ] Add notification to all subscribers on events
+
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+
 ## Authors
 
 * [@thebootable](https://github.com/thebootable)
