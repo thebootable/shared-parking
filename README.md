@@ -1,6 +1,7 @@
 <div align="center">
 <img src="www/img/parking.png" alt="parking" width="80" height="80"/>
 </div>
+
 # shared parking
 
  A responsive web application to manage your local parking space. Request a parking spot from others and provide your own parking spot for others to use!
