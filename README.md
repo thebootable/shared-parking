@@ -36,7 +36,7 @@ If you haven't installed docker-compose, please refer to the [project documentat
 ### Preparations: Environment Variables
 Create a `.env` file in the root directory of the project:
 ```
-#Webserver configuration
+#Webserver configuration: This is the port at which your application will be reachable
 APP_PORT="4000"
 
 #credentials for the Mongo Database
