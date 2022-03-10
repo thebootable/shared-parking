@@ -10,10 +10,10 @@
 
 I live in a big house with more than 200 flats. Each flat has an assigned parking spot, but all spots are used all the time.
 Therefore we share out spaces, mostly for when visitors come over.
-So far, we used a WhatsApp Group chat to manage the requests and spots, but that's confusing and inconvenient.
+So far, we used a WhatsApp Group chat to manage the requests and spots, but that's confusing and inconvenient.  
 For example: If one asks for a spot ahead of times, it might not get a response because people can't say for sure.
 
-To improve the situation, this application was created.
+To improve the situation, this application was created.  
 You can send requests, answer requests or simply provide your parking spot in case anyone might need it. 
 
 ## Getting Started
@@ -21,6 +21,7 @@ You can send requests, answer requests or simply provide your parking spot in ca
 ### Dependencies
 
 * Docker and docker-compose
+
 Please make sure docker-compose is installed
 ```
 docker-compose --version
