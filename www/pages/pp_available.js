@@ -26,7 +26,7 @@ setTimeout(()=>{
             thead.appendChild(th_tr);
 
             //Remove spinner
-            document.getElementById('loading_spinner_avail').remove();
+            document.getElementById('loading_spinner_avail').parentNode.remove();
 
             cl.appendChild(thead)
 
@@ -59,14 +59,22 @@ setTimeout(()=>{
                 tr.appendChild(td_reservation)
                 tbody.appendChild(tr)
 
-                td_nr.innerText = s.nr
-                td_start.innerText = s.start
-                td_stop.innerText = s.stop
+                dateformatelement = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit'}
+
+                td_nr.innerText = s.parkingspot
+                td_start.innerText = new Date(s.start).toLocaleString([], dateformatelement)
+                td_stop.innerText = new Date(s.stop).toLocaleString([], dateformatelement)
                 td_contact.innerText = s.contact
                 td_reservation.innerText = 'reservieren >>'
                 
             }
             cl.appendChild(tbody);
         })
-
+        .catch(err => {
+            document.getElementById('loading_spinner_avail').parentNode.remove();
+            var content = document.getElementById("table_available_spots");
+            var p = document.createElement("p");
+            p.innerHTML = "Keine verfügbaren Parkplätze gefunden."
+            content.parentNode.replaceChild(p, content);
+        })
 }, 1000)

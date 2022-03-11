@@ -1,15 +1,37 @@
 [{
   "_id": {
-    "$oid": "6228f04a1aa90de5994fa975"
+    "$oid": "6229ae018ee115ee1a835730"
   },
-  "parkingspot": 196,
-  "client": "Tobi",
-  "creation": "2022-03-09T17:30:05.969Z"
+  "parkingspot": [
+    {
+      "$oid": "6229adb68ee115ee1a835729"
+    }
+  ],
+  "client": [
+    {
+      "$oid": "6229ae018ee115ee1a83572f"
+    }
+  ],
+  "creation": {
+    "$date": "2022-03-10T07:51:29.774Z"
+  },
+  "__v": 0
 },{
   "_id": {
-    "$oid": "6228f8101aa90de5994fa983"
+    "$oid": "6229ae118ee115ee1a835733"
   },
-  "parkingspot": 197,
-  "client": "Tobi",
-  "creation": "2022-03-09T17:32:05.969Z"
+  "parkingspot": [
+    {
+      "$oid": "6229adc88ee115ee1a83572b"
+    }
+  ],
+  "client": [
+    {
+      "$oid": "6229ae118ee115ee1a835732"
+    }
+  ],
+  "creation": {
+    "$date": "2022-03-10T07:51:45.649Z"
+  },
+  "__v": 0
 }]

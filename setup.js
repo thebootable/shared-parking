@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const path = require('path');
 require('dotenv').config();
 
 var dbhost = process.env.DB_HOST;
@@ -9,17 +10,10 @@ var dbcredentials = "";
 if (dbuser != "") {
   dbcredentials = dbuser + ":" + dbpass + "@"
 }
-
 const database = 'parking_app';
-const collection_user = 'user';
-const collection_parking = 'parking';
-const collection_spots = 'parkingspots';
-const collection_requests = 'requests';
-const collection_push_subscribers = 'push_subscribers';
 
-
-var url = `mongodb://${dbcredentials}${dbhost}:${dbport}/${database}`;
-console.log(`Using Database URL ${url}`);
+var dburl = `mongodb://${dbcredentials}${dbhost}:${dbport}/${database}`;
+console.log(`Using Database URL ${dburl}`);
 
 //Verbindung zur Datenbank herstellen
 const options = {
@@ -27,33 +21,62 @@ const options = {
 }
 mongoose.connect(dburl, options);
 const db = mongoose.connection;
-
 db.on('error', err => console.log("No connection: ", err))
 db.on('open', err => console.log("DB connection etabliert"))
 
-MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db(database);
-    console.log(`Database ${database} created!`);
-    dbo.createCollection(collection_user, function(err, res) {
-      if (err) throw err;
-      console.log(`Collection ${collection_user} created!`);
-    });
-    dbo.createCollection(collection_parking, function(err, res) {
-      if (err) throw err;
-      console.log(`Collection ${collection_parking} created!`);
-    });
-    dbo.createCollection(collection_requests, function(err, res) {
-      if (err) throw err;
-      console.log(`Collection ${collection_requests} created!`);
-    });
-    dbo.createCollection(collection_spots, function(err, res) {
-      if (err) throw err;
-      console.log(`Collection ${collection_spots} created!`);
-    });
-    dbo.createCollection(collection_push_subscribers, function(err, res) {
-      if (err) throw err;
-      console.log(`Collection ${collection_push_subscribers} created!`);
-      db.close();
-    });
-  });
+var Available = require('./schemas/available'),
+    Login = require('./schemas/login'),
+    Parkingspot = require('./schemas/parkingspot'),
+    Reservation = require('./schemas/reservation'),
+    Spot_Request = require('./schemas/spot_request'),
+    User = require('./schemas/users');
+
+  var tobi = new User({
+    name: "Tobi",
+    tel: "+49123456",
+    passwd: "md5hash6543215635154",
+    creation: "2022-03-09T17:30:05.969Z"
+  })
+
+  var markus = new User({
+    name: "Markus",
+    tel: "+491234567",
+    passwd: "md5hash6543215635154",
+    creation: "2022-03-09T17:31:05.969Z"
+  })
+
+  var anton = new User({
+    name: "Anton",
+    tel: "+491234568",
+    passwd: "md5hash6543215635154",
+    creation: "2022-03-09T17:30:05.969Z"
+  })
+
+  tobi.save();
+  markus.save();
+  anton.save();
+
+  var parking1 = new Parkingspot({
+    _id: 196,
+    owner: tobi._id,
+    location: "2. UG",
+    creation: "2022-03-09T17:30:05.969Z"
+  })
+
+  var parking2 = new Parkingspot({
+    _id: 197,
+    owner: markus._id,
+    location: "2. UG",
+    creation: "2022-03-09T17:30:05.969Z"
+  })
+
+  var parking3 = new Parkingspot({
+    _id: 198,
+    owner: anton._id,
+    location: "2. UG",
+    creation: "2022-03-09T17:30:05.969Z"
+  })
+
+  parking1.save();
+  parking2.save();
+  parking3.save();

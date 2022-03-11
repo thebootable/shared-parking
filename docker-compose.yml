@@ -15,6 +15,17 @@ services:
     depends_on:
       - mongo
     ports:
-      - "${APP_PORT}:3000"
+      - 3000
     volumes:
     - .:/usr/src/app
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.parking.entrypoints=websecure"
+      - "traefik.http.routers.parking.rule=Host(`parken.die-wg.vodka`, `parken.block-it.ovh`)"
+      - "traefik.http.routers.parking.tls=true"
+      - "traefik.http.routers.parking.tls.certresolver=lets-encrypt"
+      - "traefik.docker.network=traefik_public"
+      - "traefik.http.services.parking.loadbalancer.server.port=80"
+      - "traefik.http.routers.parking.middlewares=chain-no-auth@file"

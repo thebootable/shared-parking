@@ -78,7 +78,7 @@ command to run if program contains helper info
 - [x] Add Layout
 - [x] Add Darkmode
 - [ ] Add backend API
-    - [ ] get-methods
+    - [x] get-methods
     - [ ] post-methods
 - [ ] Add Frontend functionality
     - [ ] get parking spots
@@ -95,7 +95,7 @@ command to run if program contains helper info
     - [ ] Add function: unsubscribe from notifications
     - [ ] Add notification to all subscribers on events
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/thebootable/shared-parking/issues) for a full list of proposed features (and known issues).
 
 ## Authors
 
@@ -113,5 +113,6 @@ This project is licensed under the GNU General Public License v3.0 License - see
 ## Acknowledgments
 
 Inspiration, code snippets, etc.
+* [Font Awesome for the awesome icons](https://fontawesome.com/)
 * [basic readme template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
 * [Project Parking icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/parking)
