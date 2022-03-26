@@ -33,32 +33,41 @@ If you haven't installed docker-compose, please refer to the [project documentat
     * nodejs
     * mongoDB
 
-### Preparations: Environment Variables
-Create a `.env` file in the root directory of the project:
-```
-#Webserver configuration: This is the port at which your application will be reachable
-APP_PORT="4000"
-
-#credentials for the Mongo Database
-#should probably be left alone, can be used to connect an external mongoDB
-DB_HOST="localhost"
-DB_PORT="27017"
-DB_USER="root"
-DB_PASSWORD="rootpassword"
-```
+### Environment Variables
+Currently no `.env` file is used. Instead, all variables are added directly to the code and Dockerfile.
+These should currently be left alone, but may be moved to a `.env` file in the future.
 
 ### Installing
 
 No installation required, we simply use [docker-compose](https://docs.docker.com/compose/install/) and the rest is handled for us.
+Also traefik can be used to deploy the application.
+Please check the traefik labels on the app before deploying your own application!
 
 ### Executing program
 
 Simply start up the application:
 ```
-docker-compose up -d
+docker-compose up -d build
 ```
-Point your browser to your application [http://localhost:4000/](http://localhost:4000/)  
-Make sure your port is the same as configured in the `.env` file.
+Point your browser to your application [http://localhost:3000/](http://localhost:3000/)  
+Make sure your port is the same as configured, 3000 per default.
+If you use traefik, it's according to your entrypoint.
+
+### Traefik
+Currently, I use the following labels for traefik:
+```
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.parking.entrypoints=websecure
+      - traefik.http.routers.parking.rule=Host(`parking.block-it.ovh`)
+      - traefik.http.routers.parking.tls=true
+      - traefik.http.routers.parking.tls.certresolver=lets-encrypt
+      - traefik.docker.network=web
+      - traefik.http.routers.parking.middlewares=chain-no-auth@file
+```
+We don't specify any ports etc. as traefik handles this for us.
+Please note that the entrypoint, hostname, network and middlewares must be adjusted to your setup.
+There are some great ressources online on how to do this, check e.g. [the quick-start guide](https://doc.traefik.io/traefik/getting-started/quick-start/).
 
 ## Help
 
