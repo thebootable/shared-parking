@@ -67,25 +67,43 @@ Yeah there is no real help, you're pretty much on your own. Of course you can al
 ## Roadmap
 
 - [x] Implement basic idea
-- [x] Add Layout
+- [x] Add Layout and CSS
 - [x] Add Darkmode
 - [ ] Add backend API
     - [x] get-methods
+        - [x] public: available spots
+        - [x] public: open requests
+        - [x] private: user-specific requests
+        - [x] private: user-specific offers
+        - [x] private: parking spot details
+        - [x] private: user-specific spots
+        - [x] public: user-specific
     - [x] post-methods
-- [ ] Add Frontend functionality
-    - [ ] get parking spots
-    - [ ] register my parking spot
-    - [ ] add new reservation
+        - [x] registration
+        - [x] login and logout
+        - [x] sessions
+        - [x] add/remove spot
+        - [x] add/remove spot request
+        - [x] add/remove spot offer
+- [x] Add Frontend functionality
+    - [x] get parking spots
+    - [x] register my parking spot
+    - [x] provide my parking spot
+- [ ] Sanitize inputs: Prevent malicious content and add requirements (e.g. correct mail-adress)
+- [ ] Finish auth: add session requirement to all private functions in API
+    - [ ] make all functions private
+    - [ ] move all functions to the same layout
+- [ ] Add reservation functionality
+    - [ ] create reservation
     - [ ] view my reservations
-    - [ ] provide my parking spot
     - [ ] answer an open parking spot request
+- [x] Add deployment: docker-compose and traefik
 - [ ] Add User management
     - [x] Registration
     - [x] Login
-- [ ] Finalise browser notifications
-    - [ ] Prevent multiple registrations
-    - [ ] Add function: unsubscribe from notifications
-    - [ ] Add notification to all subscribers on events
+- [ ] Add notifications
+    - [ ] notifications via e-mail
+    - [ ] browser push-notifications
 
 See the [open issues](https://github.com/thebootable/shared-parking/issues) for a full list of proposed features (and known issues).
 
