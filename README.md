@@ -1,5 +1,5 @@
 <div align="center">
-<img src="www/img/parking.png" alt="parking" width="80" height="80"/>
+<img src="website/www/img/parking.png" alt="parking" width="80" height="80"/>
 </div>
 
 # shared parking
