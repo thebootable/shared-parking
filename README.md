@@ -77,7 +77,9 @@ Yeah there is no real help, you're pretty much on your own. Of course you can al
         - [x] private: user-specific offers
         - [x] private: parking spot details
         - [x] private: user-specific spots
-        - [x] public: user-specific
+        - [x] public: parking spot details
+        - [x] public: user details
+        - [x] private: validate session
     - [x] post-methods
         - [x] registration
         - [x] login and logout
