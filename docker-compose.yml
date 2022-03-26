@@ -1,31 +1,37 @@
 version: "3.9"
+
+networks:
+  web:
+    external:
+      name: web
+  internal:
+    driver: bridge
+
 services:
   mongo:
     image: mongo
     restart: unless-stopped
-    ports:
-      - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "rootpassword"
+    volumes:
+      - ./mongo/data:/data/db
+    networks:
+      - internal
 
-  parkplatzbackend:
+  app:
     build: .
     restart: unless-stopped
     depends_on:
       - mongo
-    ports:
-      - 3000
-    volumes:
-    - .:/usr/src/app
     networks:
       - web
+      - internal
     labels:
       - traefik.enable=true
-      - "traefik.http.routers.parking.entrypoints=websecure"
-      - "traefik.http.routers.parking.rule=Host(`parken.die-wg.vodka`, `parken.block-it.ovh`)"
-      - "traefik.http.routers.parking.tls=true"
-      - "traefik.http.routers.parking.tls.certresolver=lets-encrypt"
-      - "traefik.docker.network=traefik_public"
-      - "traefik.http.services.parking.loadbalancer.server.port=80"
-      - "traefik.http.routers.parking.middlewares=chain-no-auth@file"
+      - traefik.http.routers.parking.entrypoints=websecure
+      - traefik.http.routers.parking.rule=Host(`parking.block-it.ovh`)
+      - traefik.http.routers.parking.tls=true
+      - traefik.http.routers.parking.tls.certresolver=lets-encrypt
+      - traefik.docker.network=web
+      - traefik.http.routers.parking.middlewares=chain-no-auth@file

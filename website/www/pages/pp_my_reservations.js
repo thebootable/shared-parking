@@ -1,0 +1,1 @@
+checkDarkmode();

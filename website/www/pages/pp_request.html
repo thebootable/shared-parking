@@ -1,0 +1,26 @@
+<p class="col-8 centered-loading-icon invisible"><i id="loading_spinner_request" class='fas fa-cog fa-spin icon_body'></i></p>
+
+<div id ="requestform" class = "class_request generalform">
+    <h3 id="request_header">Einen Parkplatz anfragen</h3>
+    <p>
+    <label class="floatLabel">Benötigt ab</label>
+    <input type="datetime-local" id="request_start" name="request_start">
+    </p>
+
+    <p>
+    <label class="floatLabel">Benötigt bis</label>
+    <input type="datetime-local" id="request_stop" name="request_stop">
+    </p>
+    <p>
+    <button type="button" id="submit_request" name="submit_request" class="action">Anfragen!</button><br>
+    </p>
+
+</div>
+<div id="request_result" class="class_request invisible"></div>
+
+<section class="class_request">
+    <h3>Meine Anfragen  <i id = "reload_requests" class="fas fa-sync reload fa-sm icon_body link"></i></h3>
+    <p id="myrequestresult" class="invisible"></p>
+    <p class="col-8 centered-loading-icon"><i id="loading_spinner_myrequests" class='fas fa-cog fa-spin icon_body'></i></p>
+    <table id="table_myrequests"></table>
+</section>

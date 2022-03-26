@@ -1,0 +1,568 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* font-awesome icons */
+i.fa, i.fab, i.fad, i.fal, i.far, i.fas {
+    color:#7c1c34;
+}
+
+i.fa.dark, i.fab.dark, i.fad.dark, i.fal.dark, i.far.dark, i.fas.dark {
+    color: #ff4d78;
+}
+
+.reload:hover{
+  transform: rotate(30deg);
+}
+
+.centered-loading-icon {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+/* HTML Blöcke*/
+
+body {
+    margin: 0px;
+}
+
+header {
+    padding: 40px;
+    text-align: center;
+    background: #7c1c34;
+    color: white;
+    font-size: 30px;
+    margin: auto;
+}
+
+main {
+    margin: auto;
+    background: #fff3f3;
+}
+
+section {
+    padding: 20px;
+    margin: auto;
+}
+
+section section {
+  padding: 0px;
+  padding-bottom: 20px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    position: sticky;
+    top: 0;
+    background-color: #dddddd;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Headers */
+
+h1 {
+    font-weight: bold;
+    margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h3:first-of-type {
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+/* Text allgemein*/
+
+.link {
+    color: #952d46;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.link.dark {
+    color: #ff4d78;  
+}
+
+a {
+    text-decoration: none;
+    color: #952d46;
+}
+
+a.dark{
+    color: #ff4d78;
+}
+
+/* Forms */
+form{
+    margin-top: 0px;
+}
+
+input {
+    border: none;
+    border-bottom: 2px solid #952d46;
+    margin: 2px;
+    height: 25px;
+    background-color: white;
+  }
+
+button {
+    background-color: #dddddd;
+    border: none;
+    color: #000000;
+    border-radius: 3px;
+    font-size: medium;
+    padding: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button:hover{
+    background-color: #cccccc;
+    cursor: pointer;
+}
+
+button.action{
+    background-color: #7c1c34;
+    color: white;
+}
+
+button.action:hover{
+    background-color: #952d46;
+    color: white;
+}
+
+/* Navigation */ 
+
+nav {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    position: sticky;
+    top: 0;
+    background-color: #dddddd;
+    justify-content: space-between;
+    z-index: 99;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    float: left;
+    cursor:pointer;
+}
+
+    nav li a {
+        display: block;
+        color: black;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+        /* Change the link color to #cccccc (grey) on hover */
+        nav li a:hover {
+            background-color: #cccccc;
+        }
+
+    /* Burger-Menü-Icon verstecken */
+    .topnav .icon {
+        display: none;
+    }
+
+/* Navigationsleiste zusammenklappen bei Mobilgeräten  und Burger-Menü anzeigen*/
+@media screen and (max-width: 680px) {
+    .topnav ul {
+        display: none;
+    }
+    .topnav .icon {
+      float: right;
+      display: block;
+    }
+  
+  /* "responsive" wird durch Klick auf das Burgermenü per JS auf das Menü angewendet" */
+    .topnav.responsive {position: relative;}
+    .topnav.responsive ul.icon {
+      position: relative;
+    }
+    .topnav.responsive ul {
+      float: none;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .topnav.responsive ul.invisible {
+        display: none;
+    }
+
+    .topnav.responsive ul.medialinks {
+        border-left: solid #2a2828 1px;
+    }
+
+    header {
+        padding: 0;
+        font-size: medium;
+    }
+  }
+
+
+/* Layout für Mobilgeräte */
+[class*="col-"] {
+    width: 100%;
+}
+
+/* Layout für PCs */
+@media only screen and (min-width: 940px) {
+    .col-1 {
+        width: 8.33%;
+    }
+
+    .col-2 {
+        width: 16.66%;
+    }
+
+    .col-3 {
+        width: 25%;
+    }
+
+    .col-4 {
+        width: 33.33%;
+    }
+
+    .col-5 {
+        width: 41.66%;
+    }
+
+    .col-6 {
+        width: 50%;
+    }
+
+    .col-7 {
+        width: 58.33%;
+    }
+
+    .col-8 {
+        width: 66.66%;
+    }
+
+    .col-9 {
+        width: 75%;
+    }
+
+    .col-10 {
+        width: 83.33%;
+    }
+
+    .col-11 {
+        width: 91.66%;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
+}
+
+/*responsive Tabellen*/
+table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+    text-align: left;
+  }
+  
+  table caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  table tr {
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  table th,
+  table td {
+    padding: .625em;
+    text-align: left;
+  }
+  
+  table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+  }
+
+@media screen and (max-width: 600px) {
+    table {
+      border: 0;
+    }
+  
+    table caption {
+      font-size: 1.3em;
+    }
+    
+    table thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    table tr {
+      border-bottom: 3px solid #ddd;
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    table td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    table td::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+    }
+    
+    table td:last-child {
+      border-bottom: 0;
+    }
+  }
+  
+
+/* Dark Mode: */
+header.dark {
+    background: #46101d;
+    color: #afafaf;
+}
+
+nav.dark {
+    background: #afafaf;
+    }
+
+body.dark {
+    color: #afafaf;
+    background: #545454;
+}
+
+main.dark {
+    background: #2a2828;
+    }
+
+footer.dark {
+    background: #afafaf;
+    color: black;
+    }
+
+input.dark {
+    border-bottom: 2px solid #952d46;
+    background-color: #dddddd;
+    }
+
+button.dark {
+    background-color: #dddddd;
+    color: #000000;
+}
+
+button.dark:hover{
+    background-color: #cccccc;
+}
+
+button.dark.action{
+    background-color: #7c1c34;
+    color: #afafaf;
+}
+
+button.dark.action:hover{
+    background-color: #952d46;
+    color: #dddddd;
+}
+
+/* JS Helpers */
+.invisible {
+    display: none;
+}
+
+/* Login- und Registrierungsformular */
+
+.profileform {
+    background: #fff;
+    padding: 1em 4em 2em;
+    max-width: 400px;
+    margin: 50px auto 0;
+    box-shadow: 0 0 1em #222;
+    border-radius: 2px;
+    color: #000;
+}
+
+    .profileform h2 {
+      margin:0 0 1em 0;
+      padding:10px;
+      text-align:center;
+      font-size:30px;
+      border-bottom:solid 1px #e5e5e5;
+    }
+    .profileform p {
+      margin: 0 0 2em 0;
+      position: relative;
+    }
+    .profileform input {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      outline: none;
+      margin:0;
+    }
+    .profileform input[type="text"],
+    .profileform input[type="tel"],
+    .profileform input[type="password"] {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      font-size: 1.2em;
+      padding: 1.2em .5em;
+      border-radius: 2px;
+    }
+    .profileform input[type="text"]:focus,
+    .profileform input[type="tel"]:focus,
+    .profileform input[type="password"]:focus {
+      background: #fff
+    }
+    .profileform label{
+      position: absolute;
+      left: 8px;
+      top: 12px;
+      color: #999;
+      font-size: 16px;
+      display: inline-block;
+      padding: 4px 10px;
+      font-weight: 400;
+      background-color: rgba(255,255,255,0);
+    }
+    .profileform .floatLabel{
+        top: -11px;
+        background-color: rgba(255,255,255,1);
+        font-size: 14px;
+      }
+
+/*Profileform dark mode*/
+
+.profileform.dark {
+    background: #545454;
+    box-shadow: 0 0 1em #46101d;
+    color: #afafaf;
+}
+
+    .profileform h2.dark {
+      border-bottom:solid 1px #afafaf;
+    }
+    .profileform input[type="text"].dark,
+    .profileform input[type="tel"].dark,
+    .profileform input[type="password"].dark {
+      background: #545454;
+      border: 1px solid #46101d;
+      color: #afafaf;
+    }
+    .profileform input[type="text"]:focus.dark,
+    .profileform input[type="tel"]:focus.dark,
+    .profileform input[type="password"]:focus.dark {
+        border: 1px solid #ff4d78;
+    }
+    .profileform label.dark{
+      color: #999;
+      background-color: rgba(255,255,255,0);
+    }
+    .profileform .floatLabel.dark{
+        background-color: #545454;
+      }
+
+      
+/* General Form */
+
+.generalform {
+  max-width: 400px;
+}
+.generalform p {
+  margin: 2em 0 1em 0;
+  position: relative;
+}
+.generalform input,
+.generalform select {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  outline: none;
+  margin:0;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  font-size: 1.2em;
+  border-radius: 2px;
+}
+
+.generalform input {
+  padding: 1.2em .5em;
+}
+
+.generalform select {
+  padding: 0.6em .5em;
+}
+
+.generalform input:focus,
+.generalform select:focus {
+  background: #fff
+}
+.generalform label{
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  color: #999;
+  font-size: 16px;
+  display: inline-block;
+  padding: 4px 10px;
+  font-weight: 400;
+  background-color: rgba(255,255,255,0);
+}
+.generalform .floatLabel{
+    top: -11px;
+    background-color: rgba(255,255,255,1);
+    font-size: 14px;
+  }
+
+/* Parkingspot-Form dark */
+
+.generalform input.dark,
+.generalform select.dark {
+  background: #545454;
+  border: 1px solid #46101d;
+  color: #afafaf;
+}
+.generalform input:focus.dark,
+.generalform select:focus.dark {
+  border: 1px solid #ff4d78;
+}
+.generalform .floatLabel.dark{
+  background-color: #545454;
+  }

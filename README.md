@@ -8,13 +8,13 @@
 
 ## Description
 
-I live in a big house with more than 200 flats. Each flat has an assigned parking spot, but all spots are used all the time.
-Therefore we share out spaces, mostly for when visitors come over.
-So far, we used a WhatsApp Group chat to manage the requests and spots, but that's confusing and inconvenient.  
-For example: If one asks for a spot ahead of times, it might not get a response because people can't say for sure.
+I live in a large house with more than 200 appartments. Each appartment has an assigned parking space, but not all spaces are used all the time.
+Therefore, we share the spaces, mostly for when visitors come over.
+So far, we have used a WhatsApp Group chat to manage the requests and spaces, but that's confusing and impractical.  
+For example: When requesting a space in advance, the request may not be answered because the time slot cannot be confirmed for sure, and then the request slips to the back.
 
-To improve the situation, this application was created.  
-You can send requests, answer requests or simply provide your parking spot in case anyone might need it. 
+To improve the situation, this application was created.
+You can send requests, answer requests or simply provide your parking spot in case someone needs it. 
 
 ## Getting Started
 
@@ -45,11 +45,6 @@ DB_HOST="localhost"
 DB_PORT="27017"
 DB_USER="root"
 DB_PASSWORD="rootpassword"
-
-#VAPID-Keys for push-notifications
-PUBLIC_VAPID_KEY="Your-Public-Key"
-PRIVATE_VAPID_KEY="Your-Private-Key"
-VAPID_EMAIL="Your-EMail"
 ```
 
 ### Installing
@@ -67,10 +62,7 @@ Make sure your port is the same as configured in the `.env` file.
 
 ## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+Yeah there is no real help, you're pretty much on your own. Of course you can always add an [issue](https://github.com/thebootable/shared-parking/issues/new/choose).
 
 ## Roadmap
 
@@ -79,7 +71,7 @@ command to run if program contains helper info
 - [x] Add Darkmode
 - [ ] Add backend API
     - [x] get-methods
-    - [ ] post-methods
+    - [x] post-methods
 - [ ] Add Frontend functionality
     - [ ] get parking spots
     - [ ] register my parking spot
@@ -88,8 +80,8 @@ command to run if program contains helper info
     - [ ] provide my parking spot
     - [ ] answer an open parking spot request
 - [ ] Add User management
-    - [ ] Registration
-    - [ ] Login
+    - [x] Registration
+    - [x] Login
 - [ ] Finalise browser notifications
     - [ ] Prevent multiple registrations
     - [ ] Add function: unsubscribe from notifications
