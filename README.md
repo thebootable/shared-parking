@@ -4,7 +4,7 @@
 
 # shared parking
 
- A responsive web application to manage your local parking space. Request a parking spot from others and provide your own parking spot for others to use!
+A responsive web application to manage your local parking space. Request a parking spot from others and provide your own parking spot for others to use!
 
 ## Description
 

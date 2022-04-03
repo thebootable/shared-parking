@@ -144,11 +144,12 @@ app.get('/get_parkingspots/:userid/:sessionid', (req, res) => {
         .then(doc => {
             if (doc.length > 0) {
                 const statuscode = JSON.parse(`{"status": 200, "response": "Found registered parkingspots, responding."}`);
-                const mergedresponse = {statuscode, doc};
+                spots = JSON.parse(doc.length)
+                const mergedresponse = {statuscode, spots};
                 res.status(200).json(mergedresponse);
             } else {
                 const statuscode = JSON.parse(`{"status": 404, "response": "No registered Parkingspots found."}`);
-                spots = JSON.parse(`[{}]`)
+                spots = JSON.parse(0)
                 const mergedresponse = {statuscode, spots};
                 res.status(404).json(mergedresponse);
             }
