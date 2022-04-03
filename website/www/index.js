@@ -233,7 +233,7 @@ async function pp_registered() {
     .then(response => response.json())
     .then(myspots => {
         if(myspots.statuscode.status == 200){
-            document.getElementById("nr_registered_spots").innerText = myspots.doc.length
+            document.getElementById("nr_registered_spots").innerText = myspots.doc
         }
         checkDarkmode();
     })
