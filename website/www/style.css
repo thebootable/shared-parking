@@ -1,3 +1,4 @@
+/* use google-font Roboto */
 html {
     font-family: 'Roboto', sans-serif;
 }
@@ -7,21 +8,24 @@ i.fa, i.fab, i.fad, i.fal, i.far, i.fas {
     color:#7c1c34;
 }
 
+/* font-awesome icons but dark-mode */
 i.fa.dark, i.fab.dark, i.fad.dark, i.fal.dark, i.far.dark, i.fas.dark {
     color: #ff4d78;
 }
 
+/* reload-symbol is an font-awesome icon, this rotates it when hovered */
 .reload:hover{
   transform: rotate(30deg);
 }
 
+/* format the cog-wheel-icon used as a loading-symbol when content is loaded */
 .centered-loading-icon {
     display: flex;
     justify-content: center;
     margin: auto;
 }
 
-/* HTML Blöcke*/
+/* HTML parts*/
 
 body {
     margin: 0px;
@@ -76,19 +80,22 @@ h3 {
     margin-bottom: 10px;
 }
 
+/* make sure the first heading is not too far away from the top */
 h3:first-of-type {
   margin: 0px;
   margin-bottom: 10px;
 }
 
-/* Text allgemein*/
+/* general text */
 
+/* the link-class allows to format any text to look the same as anchor-elements */
 .link {
     color: #952d46;
     cursor: pointer;
     text-decoration: none;
 }
 
+/* dark-mode links */
 .link.dark {
     color: #ff4d78;  
 }
@@ -102,7 +109,7 @@ a.dark{
     color: #ff4d78;
 }
 
-/* Forms */
+/* forms */
 form{
     margin-top: 0px;
 }
@@ -141,7 +148,7 @@ button.action:hover{
     color: white;
 }
 
-/* Navigation */ 
+/* navigation */ 
 
 nav {
     display: flex;
@@ -184,7 +191,7 @@ nav li {
         display: none;
     }
 
-/* Navigationsleiste zusammenklappen bei Mobilgeräten  und Burger-Menü anzeigen*/
+/* collapse nav-bar on mobile and show burger-menu */
 @media screen and (max-width: 680px) {
     .topnav ul {
         display: none;
@@ -194,7 +201,7 @@ nav li {
       display: block;
     }
   
-  /* "responsive" wird durch Klick auf das Burgermenü per JS auf das Menü angewendet" */
+  /* "responsive" is added to the burger-menu by clicking on the icon via code in the index.js */
     .topnav.responsive {position: relative;}
     .topnav.responsive ul.icon {
       position: relative;
@@ -221,12 +228,12 @@ nav li {
   }
 
 
-/* Layout für Mobilgeräte */
+/* layout for mobile devices */
 [class*="col-"] {
     width: 100%;
 }
 
-/* Layout für PCs */
+/* layout for pc: coloumn design */
 @media only screen and (min-width: 940px) {
     .col-1 {
         width: 8.33%;
@@ -277,7 +284,7 @@ nav li {
     }
 }
 
-/*responsive Tabellen*/
+/*responsive tables*/
 table {
     border: 1px solid #ccc;
     border-collapse: collapse;
@@ -354,7 +361,7 @@ table {
   }
   
 
-/* Dark Mode: */
+/* mode dark mode elements */
 header.dark {
     background: #46101d;
     color: #afafaf;
@@ -402,12 +409,12 @@ button.dark.action:hover{
     color: #dddddd;
 }
 
-/* JS Helpers */
+/* JS Helpers: hide stuff */
 .invisible {
     display: none;
 }
 
-/* Login- und Registrierungsformular */
+/* layout for login and register form */
 
 .profileform {
     background: #fff;
@@ -468,7 +475,7 @@ button.dark.action:hover{
         font-size: 14px;
       }
 
-/*Profileform dark mode*/
+/*profileform dark mode*/
 
 .profileform.dark {
     background: #545454;
@@ -500,7 +507,7 @@ button.dark.action:hover{
       }
 
       
-/* General Form */
+/* general form */
 
 .generalform {
   max-width: 400px;
@@ -551,7 +558,7 @@ button.dark.action:hover{
     font-size: 14px;
   }
 
-/* Parkingspot-Form dark */
+/* general form but dark-mode */
 
 .generalform input.dark,
 .generalform select.dark {

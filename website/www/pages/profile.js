@@ -1,12 +1,13 @@
-checkDarkmode();
+checkDarkmode(); //make sure stuff fits the general style
 console.log("Getting profile...")
 
+//get login-data from cookies
 if ((getCookie("cookie_username") && getCookie("cookie_session"))){
     console.log("Login using stored session");
-    displayProfileAfterLogin(getCookie("cookie_username"), getCookie("cookie_session"))
+    displayProfileAfterLogin(getCookie("cookie_username"), getCookie("cookie_session")) //start the general build of the site: load content from db
 }
 else{
-    //kein Login vorhanden
+    //no login found, show normal login-form
     console.log("No login data found")
     document.getElementById("table_profile").classList.add("invisible");
     document.getElementById("loading_spinner_profile").parentElement.classList.add("invisible");
@@ -15,13 +16,16 @@ else{
     document.getElementById("submit_login").addEventListener("click", login);
 }
 
+
+//login-function
 async function login(){
     document.getElementById("loading_spinner_profile").parentElement.classList.remove("invisible");
     document.cookie = "cookie_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "cookie_username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     let email = document.getElementById("login_email").value;
     let password = document.getElementById("login_password").value;
-    let login = {email: email, password: password}
+    let login = {email: email, password: password} //build login-element
+    //post login-element to the server
     await fetch('/login', {
         method: 'POST',
         mode: 'cors',
@@ -40,16 +44,16 @@ async function login(){
             status: response.status
         }))
         .then(resjson => {
-            if (resjson.status == 200){
+            if (resjson.status == 200){ //login valid, server has responded with session-id
                 console.log("Login successful");
                 document.cookie = `cookie_session=${resjson.data.sessionid}`;
                 document.cookie = `cookie_username=${resjson.data.userid}`;
                 document.getElementById("loginresult").classList.add("invisible")
                 checklogin();
-                displayProfileAfterLogin(getCookie("cookie_username"), getCookie("cookie_session"));
+                displayProfileAfterLogin(getCookie("cookie_username"), getCookie("cookie_session")); //start the general build of the site: load content from db
                 return true;
             }
-            else {
+            else { //error, login invalid or general error
                 console.log("Login failed");
                 document.getElementById("loginresult").innerText = "Error during login. Check credentials and try again?"
                 document.getElementById("loginresult").classList.remove("invisible")
@@ -57,7 +61,7 @@ async function login(){
             }
         })
         .catch(error => console.error('Error:', error))
-        .then(document.getElementById("loading_spinner_profile").parentElement.classList.add("invisible"))
+        .then(document.getElementById("loading_spinner_profile").parentElement.classList.add("invisible")) //hide spinner
     )
     .catch(error => console.error('Error:', error));
 }
@@ -84,8 +88,9 @@ async function logout(userid, sessionid){
     })
 }
 
+//show the profile-data as well as menu-items after login
 async function displayProfileAfterLogin(cookie_userid, cookie_sessionid) {
-    //Validität der Login-Session checken
+    //check if session is valid
     fetch(`/login_session/${cookie_userid}/${cookie_sessionid}`)
     .then(res => {
         if (res.status = 200){
@@ -101,12 +106,13 @@ async function displayProfileAfterLogin(cookie_userid, cookie_sessionid) {
     })
     .then(res => {
         if(res.status=200) {
-            fetch(`/get_user/${cookie_userid}`)
+            //valid session
+            fetch(`/get_user/${cookie_userid}`) //get profile-data
             .then(user => user.json())
             .then(profile => {
                 const cl = document.getElementById('table_profile')
                 let td_name, td_mail, td_tel, td_creation, logout_button
-                if(!cl.hasChildNodes()){
+                if(!cl.hasChildNodes()){ //has the profile already been shown? if not, create a new table for it
                     let thead = document.createElement('thead');
                     let th_tr = document.createElement('tr');
                     let th_name = document.createElement('th');
@@ -158,7 +164,7 @@ async function displayProfileAfterLogin(cookie_userid, cookie_sessionid) {
                     cl.parentElement.appendChild(logout_button);
 
                 }
-                else{
+                else{ //if the profile has already been shown, use existing fields
                     td_name = document.getElementById('td_name')
                     td_mail = document.getElementById('td_mail')
                     td_tel = document.getElementById('td_tel')
@@ -196,7 +202,7 @@ async function displayProfileAfterLogin(cookie_userid, cookie_sessionid) {
                 content.parentNode.replaceChild(p, content);
                 document.getElementById("table_profile").classList.add("invisible");
             })
-        } else {
+        } else { //invalid session. show login-form
             console.log("Session invalid. Please log in.");
             document.cookie = "cookie_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "cookie_username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

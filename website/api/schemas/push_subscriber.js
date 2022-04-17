@@ -1,3 +1,5 @@
+//this schema is not currently used. It may be implemented to save browser-notification subscribers
+
 var mongoose = require('mongoose');
 const sch_subscriber = new mongoose.Schema({
     _id: {type: mongoose.Types.ObjectId, require: true, ref: 'User'},

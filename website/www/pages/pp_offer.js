@@ -1,28 +1,31 @@
-checkDarkmode();
+checkDarkmode(); //make sure stuff fits the general style
 console.log("displaying spot offer form")
 
+//get login-data from cookies
 if ((getCookie("cookie_username") && getCookie("cookie_session"))){
     console.log("Using stored session");
-    document.getElementById("submit_offer").addEventListener("click", addSpotOffer);
-    document.getElementById('reload_offer').addEventListener('click', pp_offer)
-    pp_offer_populate_dropdown();
-    pp_offer();
+    document.getElementById("submit_offer").addEventListener("click", addSpotOffer); //add functionality to the submit-button
+    document.getElementById('reload_offer').addEventListener('click', pp_offer); //add functionality to the reload-button
+    pp_offer_populate_dropdown(); //populate the drop-down with elements from the db: adds the users spots
+    pp_offer(); //start the general build of the site: load content from db
 }
 else{
-    //kein Login vorhanden
+    //no login found
     console.log("No login data found")
     window.location.hash = "profile";
 }
 
+//adds the users spots to the dropdown field
 async function pp_offer_populate_dropdown(){
-    fetch(`/get_my_parkingspots/${getCookie("cookie_username")}/${getCookie("cookie_session")}`)
+    fetch(`/get_my_parkingspots/${getCookie("cookie_username")}/${getCookie("cookie_session")}`) //use auth
     .then(response => response.json())
     .then(myspots => {
-        if(myspots.statuscode.status == 200){
+        if(myspots.statuscode.status == 200){ //success
             let ddwrapper = document.getElementById('offer_spotid')
+            //add each element as an option to the dropdown
             for (let spot of myspots.spots) {
                 let option = document.createElement('option')
-                option.setAttribute("id", spot._id)
+                option.setAttribute("id", spot._id) //add the ID. this helps with identifying the picked element later
                 option.innerText = spot.nr
                 ddwrapper.appendChild(option)
             }
@@ -36,15 +39,18 @@ async function pp_offer_populate_dropdown(){
     })
 }
 
+//get the users offered parkingspots
 async function pp_offer() {
-    fetch(`/get_my_offers/${getCookie("cookie_username")}/${getCookie("cookie_session")}`)
+    fetch(`/get_my_offers/${getCookie("cookie_username")}/${getCookie("cookie_session")}`) //use auth
     .then(response => response.json())
     .then(myoffers => {
-        const cl = document.getElementById('table_myoffers')
+        const cl = document.getElementById('table_myoffers') // the table where the elements will be shown
         const rf = document.getElementById("myofferresult") //response field
         const spinner = document.getElementById("loading_spinner_myoffers") //spinning icon when loading stuff
         if(myoffers.statuscode.status == 200){
-            removeAllChildNodes(cl)
+            removeAllChildNodes(cl) // empty the table first, important for when the reload-function is used
+
+            //build empty table-frame
             let thead = document.createElement('thead');
             let th_tr = document.createElement('tr');
             let th_nr = document.createElement('th');
@@ -67,8 +73,8 @@ async function pp_offer() {
             let tbody = document.createElement('tbody')
             dateformatelement = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit'}
             
+            //Add a table entry per offer
             for (let offer of myoffers.doc) {
-                //Create spots data table
                 let tr = document.createElement('tr');
                 let td_nr = document.createElement('td');
                 td_nr.setAttribute("data-label", "Nummer:");
@@ -92,7 +98,7 @@ async function pp_offer() {
                 td_action.setAttribute("data-label", "Löschen:");
                 td_action.appendChild(a_action)
                 td_action.addEventListener("click", removeOffer)
-                tr.setAttribute("id", offer._id)
+                tr.setAttribute("id", offer._id) //add the id of the spot to the element. this helps with deleting an offer
                 tr.appendChild(td_nr)
                 tr.appendChild(td_start)
                 tr.appendChild(td_stop)
@@ -109,31 +115,32 @@ async function pp_offer() {
             //Remove spinner
             spinner.parentElement.classList.add("invisible");
             rf.classList.add("invisible")
-        } else if (myoffers.statuscode.status == 404){
+        } else if (myoffers.statuscode.status == 404){ //no offers found: show result in response field
             rf.innerText = "Keine angebotenen Parkplätze gefunden."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else if (myoffers.statuscode.status == 401){
+        } else if (myoffers.statuscode.status == 401){ //invalid login data: show result in response field.
             rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Login ungültig."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else if (myoffers.statuscode.status == 500){
+        } else if (myoffers.statuscode.status == 500){ //something on the server-side went wrong: show result in response field
             rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Interner Fehler."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else{
+        } else{ //something different went wrong: show error in response field
             rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Allgemeiner Fehler."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
         }
-        checkDarkmode()
+        checkDarkmode();
     })
 }
 
+//function to add a new offer. is called when the submit-button is clicked
 async function addSpotOffer() {
     var spotoptions = document.getElementById("offer_spotid")
     let parkingspot = spotoptions.options[spotoptions.selectedIndex].id;
@@ -142,7 +149,8 @@ async function addSpotOffer() {
     let contact = getCookie("cookie_username");
     let userid = getCookie("cookie_username");
     let sessionid = getCookie("cookie_session");
-    let newSpot = {parkingspot: parkingspot, start: start, stop: stop, contact: contact, userid: userid, sessionid: sessionid}
+    let newOffer = {parkingspot: parkingspot, start: start, stop: stop, contact: contact, userid: userid, sessionid: sessionid} //build the offer object
+    //post the spot-element to the server
     await fetch('/offer_spot', {
         method: 'POST',
         mode: 'cors',
@@ -153,17 +161,17 @@ async function addSpotOffer() {
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
-        body: JSON.stringify(newSpot)
+        body: JSON.stringify(newOffer)
     })
     .then(response => response.json())
     .then(data => {
-        if(data.statuscode.status == 200){
+        if(data.statuscode.status == 200){ //success
             document.getElementById("offer_result").innerText = "Parkplatz erfolgreich angefragt."
             document.getElementById("offer_result").classList.remove("invisible")
             document.getElementById("offer_start").value = "";
             document.getElementById("offer_stop").value = "";
             pp_offer();
-        } else if (data.statuscode.status == 500){
+        } else if (data.statuscode.status == 500){ //something on the server-side went wrong: show result in response field
             document.getElementById("offer_result").innerText = "Parkplatz konnte nicht angefragt werden."
             document.getElementById("offer_result").classList.remove("invisible")
         } else{
@@ -172,8 +180,9 @@ async function addSpotOffer() {
     })
 }
 
+//function to remove an existing offer
 async function removeOffer(evt) {
-    let offerid = evt.currentTarget.parentElement.id;
+    let offerid = evt.currentTarget.parentElement.id; //get the offer-id from the element
     let removeSpot = {offerid: offerid, sessionid: getCookie("cookie_session"), userid: getCookie("cookie_username")}
     fetch('/remove_offer', {
         method: 'POST',
@@ -189,14 +198,14 @@ async function removeOffer(evt) {
     })
     .then(response => response.json())
     .then(data => {
-        if(data.statuscode.status == 200){
+        if(data.statuscode.status == 200){ //success
             pp_offer();
             document.getElementById("myofferresult").innerText = "Angebot erfolgreich entfernt."
             document.getElementById("myofferresult").classList.remove("invisible")
-        } else if (data.statuscode.status == 401){
+        } else if (data.statuscode.status == 401){ //invalid login data: show result in response field.
             document.getElementById("myofferresult").innerText = "Angebot konnte nicht entfernt werden: Login ungültig."
             document.getElementById("myofferresult").classList.remove("invisible")
-        } else if (data.statuscode.status == 404){
+        } else if (data.statuscode.status == 404){ //parkingspot not found: show error in response field
             document.getElementById("myofferresult").innerText = "Angebot konnte nicht entfernt werden: Angebot wurde nicht gefunden."
             document.getElementById("myofferresult").classList.remove("invisible")
         } else{

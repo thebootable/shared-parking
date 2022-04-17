@@ -7,7 +7,7 @@ window.addEventListener("load", function (event) {
     checklogin();
 })
 
-// Licht aus: Dark Mode aktivieren
+// lights off: enable dark-mode. This adds the "dark"-class to different elements
 function darkmode_set_dark() {
     document.getElementById("darkmode_light").classList.remove("invisible")
     document.getElementById("darkmode_dark").classList.add("invisible");
@@ -50,11 +50,11 @@ function darkmode_set_dark() {
         icon_body[i].classList.add("dark");
     }
 
-    document.cookie = "darkmode=true";
-    document.getElementById("page_nav").classList.remove("responsive");
+    document.cookie = "darkmode=true"; //set cookie to true so lazy-loaded elements can get formatted too
+    document.getElementById("page_nav").classList.remove("responsive"); //hide the burger-menu again. This only has an effect if the page is in mobile layout
 }
 
-// Licht an: Dark Mode deaktivieren
+// lights on: disable dark-mode. This removes the "dark"-class to different elements
 function darkmode_set_light() {
     document.getElementById("darkmode_dark").classList.remove("invisible")
     document.getElementById("darkmode_light").classList.add("invisible");
@@ -97,18 +97,18 @@ function darkmode_set_light() {
         icon_body[i].classList.remove("dark");
     }
 
-    document.cookie = "darkmode=false";
-    document.getElementById("page_nav").classList.remove("responsive");
+    document.cookie = "darkmode=false"; //set cookie to false so lazy-loaded elements can get formatted too
+    document.getElementById("page_nav").classList.remove("responsive"); //hide the burger-menu again. This only has an effect if the page is in mobile layout
 }
 
-// Hilfsfunktion: Cookie auslesen
+// helper-function: read a specific cookie. This just loops over all cookies to return the specific one
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// Hilfsfunktion: checken, ob der Darkmode im Cookie festgelegt wurde 
+// helper-function: check, if darkmode is set in the corresponding cookie
 function checkDarkmode() {
     let darkmode = getCookie("darkmode");
     if (darkmode == "true") {
@@ -118,12 +118,12 @@ function checkDarkmode() {
     }
 }
 
-// Funktion für das Burger-Menü.
+// add functionality to the burger-menu
 function menuFunction() {
     document.getElementById("page_nav").classList.toggle("responsive");
 }
 
-// Navigationsleiste mit Funktion ausstatten
+// adds functionality to the navigation bar
 function navigate() {
     if (location.hash == '#home') {
         showSection('home')
@@ -144,11 +144,11 @@ function navigate() {
     }else {
         showSection('home')
     }
-    // Burger-Menü einklappen
+    // hide burger-menu
     document.getElementById("page_nav").classList.remove("responsive");
 }
 
-// Sektion einblenden, andere Sektionen ausblenden
+// show the correct section, hide all other sections. This function is used by the navigate() function
 function showSection(name) {
     for (let e of document.getElementsByTagName("section")) {
         if (e.classList.contains(name)) {
@@ -164,9 +164,9 @@ function showSection(name) {
     }
 }
 
-// lädt die Seite nach
+// lazy-loads the content to this page in the corresponding "section"-elements
 function loadPage(name, e) {
-    // Check ob schon geladen
+    // check if content has already been loaded and prevent loading multiple times
     if (e.querySelectorAll('*').length === 0) {
         if (getCookie("darkmode")){
             e.innerHTML = "<p align='center'><i class='fas fa-cog fa-spin fa-lg dark'></i></p>";
@@ -188,23 +188,23 @@ function loadPage(name, e) {
     }
 }
 
-// Funktion mit der Elemente abhängig vom Login ein- und ausgeblendet werden
+// this function shows and hides elements depending on wether a valid login exists
 function checklogin() {
     let cookie_userid = getCookie("cookie_username")
     let cookie_sessionid = getCookie("cookie_session")
 
     if ((cookie_userid && cookie_sessionid)){
-        //Login vorhanden? Validität der Daten checken
+        //found a login? great! lets check if its valid
         fetch(`/login_session/${cookie_userid}/${cookie_sessionid}`)
         .then(res => {
-            if(res.status="200") {
+            if(res.status="200") { //valid session
                 document.getElementById("nav_request").classList.remove("invisible")
                 document.getElementById("nav_offer").classList.remove("invisible")
                 document.getElementById("nav_myspots").classList.remove("invisible")
                 document.getElementById("nav_reservation").classList.remove("invisible")
             }
             else{
-                console.log("Session invalid. Please log in.");
+                console.log("Session invalid. Please log in."); //invalid session - remove session data
                 document.cookie = "cookie_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 document.cookie = "cookie_username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 document.getElementById("nav_request").classList.add("invisible")
@@ -214,7 +214,7 @@ function checklogin() {
             }
         })
     } else {
-        console.log("No login data found.");
+        console.log("No login data found."); //no login found
         document.getElementById("nav_request").classList.add("invisible")
         document.getElementById("nav_offer").classList.add("invisible")
         document.getElementById("nav_myspots").classList.add("invisible")
@@ -222,12 +222,14 @@ function checklogin() {
     }
 }
 
+// helper-function to remove child-nodes to a specific element. This function is used in multiple places and is therefore placed in the index.js
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 
+// this function can fill the section showing how many parking-spots have been registered. This function can be used in multiple places and is therefore placed in the index.js
 async function pp_registered() {
     fetch(`/get_parkingspots/${getCookie("cookie_username")}/${getCookie("cookie_session")}`)
     .then(response => response.json())

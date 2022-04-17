@@ -1,18 +1,20 @@
-checkDarkmode();
+checkDarkmode(); //make sure stuff fits the general style
 console.log("Fetching available Spots")
 pp_available();
-document.getElementById('reload_available_spots').addEventListener('click', pp_available)
+document.getElementById('reload_available_spots').addEventListener('click', pp_available) //add functionality to the reload-icon
 
 
 async function pp_available() {
-    fetch('/get_available_spots')
+    fetch('/get_available_spots') //get all available spots. No auth needed.
     .then(res => res.json())
     .then(spots => {
-        const cl = document.getElementById('table_available_spots')
-        const rf = document.getElementById("availableresult") //response field
-        const spinner = document.getElementById("loading_spinner_avail") //spinning icon when loading stuff
-        if(spots.statuscode.status == 200){
-            removeAllChildNodes(cl)
+        const cl = document.getElementById('table_available_spots') // the table where the elements will be shown
+        const rf = document.getElementById("availableresult") // response field, used for errors
+        const spinner = document.getElementById("loading_spinner_avail") // spinning icon when loading stuff
+        if(spots.statuscode.status == 200){ // elements found
+            removeAllChildNodes(cl) // empty the table first, important for when the reload-function is used
+
+            //build empty table-frame
             let thead = document.createElement('thead');
             let th_tr = document.createElement('tr');
             let th_nr = document.createElement('th');
@@ -75,22 +77,22 @@ async function pp_available() {
                 
             }
             cl.appendChild(tbody);
-        } else if (spots.statuscode.status == 404){
+        } else if (spots.statuscode.status == 404){ //no spots found: show result in response field
             rf.innerText = "Keine angebotenen Parkplätze gefunden."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else if (spots.statuscode.status == 401){
+        } else if (spots.statuscode.status == 401){ //invalid login data: show result in response field. this should never happen here as this function does not need auth
             rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Login ungültig."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else if (spots.statuscode.status == 500){
+        } else if (spots.statuscode.status == 500){ //something on the server-side went wrong: show result in response field
             rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Interner Fehler."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else{
+        } else{ //something different went wrong: show error in response field
             rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Allgemeiner Fehler."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
@@ -99,7 +101,7 @@ async function pp_available() {
         
         checkDarkmode();
     })
-    .catch(err => {
+    .catch(err => { //if anything goes wrong: remove spinner, show general error.
         document.getElementById('loading_spinner_avail').parentNode.classList.add("invisible");;
         document.getElementById("availableresult").innerHTML = "Fehler beim Abruf der verfügbaren Parkplätze."
     })

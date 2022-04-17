@@ -1,17 +1,20 @@
-checkDarkmode();
+checkDarkmode(); //make sure stuff fits the general style
 console.log("Fetching open requests")
-pp_open_requests();
-document.getElementById('reload_open_requests').addEventListener('click', pp_open_requests)
+pp_open_requests(); //start the general build of the site: load content from db
+document.getElementById('reload_open_requests').addEventListener('click', pp_open_requests) //add functionality to the reload-button
 
+//function to get and display all open requests
 async function pp_open_requests() {
     fetch('/get_requests')
     .then(res => res.json())
     .then(open_requests => {
-        const cl = document.getElementById('table_open_requests')
-        const rf = document.getElementById("openrequestresult") //response field
+        const cl = document.getElementById('table_open_requests') // the table where the elements will be shown
+        const rf = document.getElementById("openrequestresult") // response field, used for errors  
         const spinner = document.getElementById("loading_spinner_open_requests") //spinning icon when loading stuff
-        if(open_requests.statuscode.status == 200){
-            removeAllChildNodes(cl)
+        if(open_requests.statuscode.status == 200){ //success
+            removeAllChildNodes(cl) // empty the table first, important for when the reload-function is used
+
+            //build empty table-frame
             let thead = document.createElement('thead');
             let th_tr = document.createElement('tr');
             let th_start = document.createElement('th');
@@ -71,22 +74,22 @@ async function pp_open_requests() {
                 td_reservation.innerText = 'Meinen Platz anbieten >>'
             }
             cl.appendChild(tbody);
-        } else if (open_requests.statuscode.status == 404){
+        } else if (open_requests.statuscode.status == 404){ //no requests found: show result in response field
             rf.innerText = "Keine offenen Anfragen gefunden."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else if (open_requests.statuscode.status == 401){
+        } else if (open_requests.statuscode.status == 401){ //invalid login data: show result in response field.
             rf.innerText = "Offenen Anfragen konnten nicht abgerufen werden: Login ungültig."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else if (open_requests.statuscode.status == 500){
+        } else if (open_requests.statuscode.status == 500){ //something on the server-side went wrong: show result in response field
             rf.innerText = "Offenen Anfragen konnten nicht abgerufen werden: Interner Fehler."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")
             spinner.parentElement.classList.add("invisible");
-        } else{
+        } else{ //something different went wrong: show error in response field
             rf.innerText = "Offenen Anfragen konnten nicht abgerufen werden: Allgemeiner Fehler."
             rf.classList.remove("invisible")
             cl.classList.add("invisible")

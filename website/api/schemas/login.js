@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 
 const sch_login = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId, //Session-ID
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' }, //User-ID
-    password: {type: String, required: true}, //Das gespeicherte Passwort
-    creation: Date //Erstellungs- oder Änderungs-Zeitpunkt
+    _id: mongoose.Schema.Types.ObjectId, //Session-ID, automatically generated
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' }, //references a user-ID
+    password: {type: String, required: true}, //the saved password
+    creation: Date //timestamp of creation or modification
 })
 
-sch_login.pre("save", function (next) {
+sch_login.pre("save", function (next) { //before saving a password: encrypt it using bcrypt
     const user = this
   
     if (this.isModified("password") || this.isNew) {

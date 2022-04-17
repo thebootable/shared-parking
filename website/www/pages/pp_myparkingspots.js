@@ -1,25 +1,31 @@
-checkDarkmode();
+checkDarkmode(); //make sure stuff fits the general style
 console.log("Fetching my Spots")
 
+//get login-data from cookies
 if ((getCookie("cookie_username") && getCookie("cookie_session"))){
+    //login exists
     console.log("Using stored session");
-    document.getElementById("submit_spot").addEventListener("click", registerNewSpot);
-    document.getElementById('reload_myspots').addEventListener('click', pp_myparkingspots)
-    pp_myparkingspots();
+    document.getElementById("submit_spot").addEventListener("click", registerNewSpot); //add functionality to the submit-button
+    document.getElementById('reload_myspots').addEventListener('click', pp_myparkingspots); //add functionality to the reload-button
+    pp_myparkingspots(); //start the general build of the site: load content from db
 }
 else{
-    //kein Login vorhanden
+    //no login found
     console.log("No login data found")
     window.location.hash = "profile";
 }
 
+//get the users registered parkingspots
 async function pp_myparkingspots() {
-    fetch(`/get_my_parkingspots/${getCookie("cookie_username")}/${getCookie("cookie_session")}`)
+    fetch(`/get_my_parkingspots/${getCookie("cookie_username")}/${getCookie("cookie_session")}`) //check auth
     .then(response => response.json())
     .then(myspots => {
-        if(myspots.statuscode.status == 200){
-            const cl = document.getElementById('table_myspots')
-            removeAllChildNodes(cl)
+        const cl = document.getElementById('table_myspots') // the table where the elements will be shown
+        const rf = document.getElementById("myspotresult") // response field, used for errors    
+        if(myspots.statuscode.status == 200){ //auth valid
+            removeAllChildNodes(cl) // empty the table first, important for when the reload-function is used
+
+            //build empty table-frame
             let thead = document.createElement('thead');
             let th_tr = document.createElement('tr');
             let th_nr = document.createElement('th');
@@ -43,8 +49,8 @@ async function pp_myparkingspots() {
             let tbody = document.createElement('tbody')
             dateformatelement = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit'}
             
+            //Add a table entry per registered parkingspot
             for (let spot of myspots.spots) {
-                //Create spots data table
                 let tr = document.createElement('tr');
                 let td_nr = document.createElement('td');
                 td_nr.setAttribute("data-label", "Nummer:");
@@ -62,7 +68,7 @@ async function pp_myparkingspots() {
                 td_action.setAttribute("data-label", "Löschen:");
                 td_action.appendChild(a_action)
                 td_action.addEventListener("click", removeParkingSpot)
-                tr.setAttribute("id", spot._id)
+                tr.setAttribute("id", spot._id) //add the id of the spot to the element. this helps with deleting a parking-spot
                 tr.appendChild(td_nr)
                 tr.appendChild(td_location)
                 tr.appendChild(td_creation)
@@ -76,33 +82,38 @@ async function pp_myparkingspots() {
 
             //Remove spinner
             document.getElementById("loading_spinner_myspots").parentElement.classList.add("invisible");
-            document.getElementById("myspotresult").classList.add("invisible")
-        } else if (myspots.statuscode.status == 404){
-            document.getElementById("myspotresult").innerText = "Keine registrierten Parkplätze gefunden."
-            document.getElementById("myspotresult").classList.remove("invisible")
-            document.getElementById('table_myspots').classList.add("invisible")
+            rf.classList.add("invisible")
+        } else if (myspots.statuscode.status == 404){ //no spots found: show result in response field
+            rf.innerText = "Keine registrierten Parkplätze gefunden."
+            rf.classList.remove("invisible")
+            cl.classList.add("invisible")
             document.getElementById("loading_spinner_myspots").parentElement.classList.add("invisible");
-        } else if (myspots.statuscode.status == 401){
-            document.getElementById("myspotresult").innerText = "Parkplätze konnten nicht abgerufen werden: Login ungültig."
-            document.getElementById("myspotresult").classList.remove("invisible")
-            document.getElementById('table_myspots').classList.add("invisible")
+        } else if (myspots.statuscode.status == 401){ //invalid login data: show result in response field.
+            rf.innerText = "Parkplätze konnten nicht abgerufen werden: Login ungültig."
+            rf.classList.remove("invisible")
+            cl.classList.add("invisible")
             document.getElementById("loading_spinner_myspots").parentElement.classList.add("invisible");
-        } else if (myspots.statuscode.status == 500){
-            document.getElementById("myspotresult").innerText = "Parkplätze konnten nicht abgerufen werden: Interner Fehler."
-            document.getElementById("myspotresult").classList.remove("invisible")
-            document.getElementById('table_myspots').classList.add("invisible")
+        } else if (myspots.statuscode.status == 500){ //something on the server-side went wrong: show result in response field
+            rf.innerText = "Parkplätze konnten nicht abgerufen werden: Interner Fehler."
+            rf.classList.remove("invisible")
+            cl.classList.add("invisible")
             document.getElementById("loading_spinner_myspots").parentElement.classList.add("invisible");
-        } else{
-
+        } else{ //something different went wrong: show error in response field
+            rf.innerText = "Angebotene Parkplätze konnten nicht abgerufen werden: Allgemeiner Fehler."
+            rf.classList.remove("invisible")
+            cl.classList.add("invisible")
+            spinner.parentElement.classList.add("invisible");
         }
         checkDarkmode();
     })
 }
 
+//function to register a new parking-spot. is called when the submit-button is clicked
 async function registerNewSpot() {
     let nr = document.getElementById("spot_nr").value;
     let location = document.getElementById("spot_location").value;
-    let newSpot = {nr: nr, location: location, owner: getCookie("cookie_username"), sessionid: getCookie("cookie_session"), userid: getCookie("cookie_username")}
+    let newSpot = {nr: nr, location: location, owner: getCookie("cookie_username"), sessionid: getCookie("cookie_session"), userid: getCookie("cookie_username")} //build the spot object
+    //post the spot-element to the server
     await fetch('/register_spot', {
         method: 'POST',
         mode: 'cors',
@@ -117,29 +128,30 @@ async function registerNewSpot() {
     })
     .then(response => response.json())
     .then(data => {
-        if(data.statuscode.status == 200){
+        if(data.statuscode.status == 200){ //success
             document.getElementById("spotresult").innerText = "Parkplatz erfolgreich angelegt."
             document.getElementById("spotresult").classList.remove("invisible")
             document.getElementById("spot_nr").value = "";
             document.getElementById("spot_location").value = "";
             pp_myparkingspots();
             pp_registered();
-        } else if (data.statuscode.status == 500){
+        } else if (data.statuscode.status == 500){ //something on the server-side went wrong: show result in response field
             document.getElementById("spotresult").innerText = "Parkplatz konnte nicht angelegt werden: Interner Fehler."
             document.getElementById("spotresult").classList.remove("invisible")
-        } else if (data.statuscode.status == 401){
+        } else if (data.statuscode.status == 401){ //invalid login data: show result in response field.
             document.getElementById("spotresult").innerText = "Parkplatz konnte nicht angelegt werden: Login ungültig."
             document.getElementById("spotresult").classList.remove("invisible")
-        } else{
+        } else{ //something different went wrong: show error in response field
             document.getElementById("spotresult").innerText = "Parkplatz konnte nicht angelegt werden: Allgemeiner Fehler."
             document.getElementById("spotresult").classList.remove("invisible")
         }
     })
 }
 
+//function to remove an existing parking-spot
 async function removeParkingSpot(evt) {
-    spotid = evt.currentTarget.parentElement.id;
-    let removeSpot = {spotid: spotid, sessionid: getCookie("cookie_session"), userid: getCookie("cookie_username")}
+    spotid = evt.currentTarget.parentElement.id; //get the parkingspot-id from the element
+    let removeSpot = {spotid: spotid, sessionid: getCookie("cookie_session"), userid: getCookie("cookie_username")} //use auth
     fetch('/remove_spot', {
         method: 'POST',
         mode: 'cors',
@@ -154,17 +166,17 @@ async function removeParkingSpot(evt) {
     })
     .then(response => response.json())
     .then(data => {
-        if(data.statuscode.status == 200){
+        if(data.statuscode.status == 200){ //success
             document.getElementById("spotresult").innerText = "Parkplatz erfolgreich entfernt."
             document.getElementById("spotresult").classList.remove("invisible")
             document.getElementById("spot_nr").value = "";
             document.getElementById("spot_location").value = "";
             pp_myparkingspots();
             pp_registered();
-        } else if (data.statuscode.status == 401){
+        } else if (data.statuscode.status == 401){ //invalid login data: show result in response field.
             document.getElementById("spotresult").innerText = "Parkplatz konnte nicht entfernt werden: Login ungültig."
             document.getElementById("spotresult").classList.remove("invisible")
-        } else if (data.statuscode.status == 404){
+        } else if (data.statuscode.status == 404){ //parkingspot not found: show error in response field
             document.getElementById("spotresult").innerText = "Parkplatz konnte nicht entfernt werden: Parkplatz wurde nicht gefunden."
             document.getElementById("spotresult").classList.remove("invisible")
         } else{
